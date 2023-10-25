@@ -13,7 +13,7 @@
 <h1>Osoby</h1>
 <div>
     <ul>
-        <li th:each="employee : ${employees}" th:text="${employee}">
+        <li th:each="dep : ${departments}" th:text="${dep}">
             people
         </li>
     </ul>
@@ -26,19 +26,19 @@
                 <tr>
                     <th scope="col">select</th>
                     <th scope="col">id</th>
-                    <th scope="col">Imie</th>
-                    <th scope="col">Nazwisko</th>
-                    <th scope="col">Data urodzenia</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">HOD</th>
+                    <th scope="col">MEMBERS</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="employee : ${employees}">
-                    <td><input type="checkbox" name="employee" th:value="${employee.id}"/>
+                <tr th:each="dep : ${departments}">
+                    <td><input type="checkbox" name="dep" th:value="${dep.id}"/>
                     </td>
-                    <td th:text="${employee.id}"> id</td>
-                    <td th:text="${employee.name}"> name</td>
-                    <td th:text="${employee.surname}"> surname</td>
-                    <td th:text="${employee.dob}"> dob</td>
+                    <td th:text="${dep.id}"> id</td>
+                    <td th:text="${dep.name}"> name</td>
+                    <td th:text="${dep.HOD}"> surname</td>
+                    <td th:text="${dep.members}"> dob</td>
                 </tr>
                 </tbody>
             </table>
@@ -47,22 +47,24 @@
 
     </form>
 </div>
+
 <div>
-    <form th:object="${employee}" method="post">
+    <form th:object="${department}" method="post">
         <div>
-            <label for="employee-name" class="form-label">Imie</label>
+            <label for="employee-name" class="form-label">Nazwa</label>
             <input type="text" class="form-control" id="employee-name" th:field="*{name}">
         </div>
         <div>
-            <label for="employee-surname" class="form-label">Nazwisko</label>
-            <input type="text" class="form-control" id="employee-surname" th:field="*{surname}">
+            <label for="employee-surname" class="form-label">HOD</label>
+            <input type="text" class="form-control" id="employee-surname" th:field="*{HOD}">
         </div>
         <div>
-            <label for="dob" class="form-label">Data urodzenia</label>
-            <input type="date" class="form-control" id="dob" th:field="*{dob}">
+            <label for="dob" class="form-label">Członkowie</label>
+            <input type="text" class="form-control" id="dob" th:field="*{members}">
         </div>
         <button type="submit" class="btn btn-primary">Dodaj</button>
     </form>
 </div>
+
 </body>
 </html>

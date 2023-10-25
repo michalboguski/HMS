@@ -1,4 +1,4 @@
-package pl.michalboguski.HMS.Emplyee;
+package pl.michalboguski.HMS.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

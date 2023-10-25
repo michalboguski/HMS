@@ -1,9 +1,10 @@
-package pl.michalboguski.HMS.Emplyee;
+package pl.michalboguski.HMS.Employee;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michalboguski.HMS.Department.Department;
 
 import java.time.LocalDate;
 
@@ -15,18 +16,18 @@ import java.time.LocalDate;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "last-name")
     private String surname;
-    @Column(name = "dob" )
+    @Column(name = "dob")
     private LocalDate dob;
+    @ManyToOne
+    Department department;
 
     @Override
     public String toString() {
-        return
-                //id +  " " +
-                name + " " + surname + " " + dob;
+        return name + " " + surname + " " + dob;
     }
 }
