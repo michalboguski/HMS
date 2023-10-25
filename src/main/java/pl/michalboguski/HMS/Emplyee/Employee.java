@@ -20,7 +20,7 @@ public class Employee {
     private String name;
     @Column(name = "last-name")
     private String surname;
-    @Column(name = "dob" )
+    @Column(name = "dob")
     private LocalDate dob;
 
     @Override
