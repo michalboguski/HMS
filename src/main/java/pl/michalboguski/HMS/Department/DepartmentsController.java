@@ -3,6 +3,8 @@ package pl.michalboguski.HMS.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.michalboguski.HMS.Employee.Employee;
+import pl.michalboguski.HMS.Employee.EmployeesService;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ public class DepartmentsController {
 
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private EmployeesService employeesService;
 
     @GetMapping("")
     public String displayDepartments(){
@@ -20,6 +24,11 @@ public class DepartmentsController {
     @ModelAttribute
     public Department departmentModel() {
         return new Department();
+    }
+
+    @ModelAttribute("allEmployee")
+    public Iterable<Employee> getAllEmployee() {
+        return employeesService.findAllEmployeesFromDataBase();
     }
 
     @ModelAttribute("departments")

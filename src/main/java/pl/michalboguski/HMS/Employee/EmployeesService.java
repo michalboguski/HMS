@@ -27,4 +27,8 @@ public class EmployeesService {
     public Iterable<Employee> findAllEmployeesFromDataBase() {
         return employeesRepository.findAll();
     }
+
+    public Employee findById(Long id){
+        return employeesRepository.getReferenceById(id);
+    }
 }

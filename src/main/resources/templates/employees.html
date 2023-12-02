@@ -7,48 +7,40 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <title>Strona wyświetla osoby</title>
+    <title>Strona wyświetla Pracowników</title>
 </head>
 <body>
 <h1>Osoby</h1>
-<div>
-    <ul>
-        <li th:each="employee : ${employees}" th:text="${employee}">
-            people
-        </li>
-    </ul>
-</div>
 <div>
     <form method="post">
         <div>
             <table class="table">
                 <thead>
-                <tr>
-                    <th scope="col">select</th>
-                    <th scope="col">id</th>
-                    <th scope="col">Imie</th>
-                    <th scope="col">Nazwisko</th>
-                    <th scope="col">Data urodzenia</th>
-                </tr>
+                    <tr>
+                        <th scope="col">select</th>
+                        <th scope="col">id</th>
+                        <th scope="col">Imie</th>
+                        <th scope="col">Nazwisko</th>
+                        <th scope="col">Data urodzenia</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="employee : ${employees}">
-                    <td><input type="checkbox" name="employee" th:value="${employee.id}"/>
-                    </td>
-                    <td th:text="${employee.id}"> id</td>
-                    <td th:text="${employee.name}"> name</td>
-                    <td th:text="${employee.surname}"> surname</td>
-                    <td th:text="${employee.dob}"> dob</td>
-                </tr>
+                    <tr th:each="employee : ${employees}">
+                        <td><input type="checkbox" name="employee" th:value="${employee.id}"/>
+                        </td>
+                        <td th:text="${employee.id}"> id</td>
+                        <td th:text="${employee.name}"> name</td>
+                        <td th:text="${employee.surname}"> surname</td>
+                        <td th:text="${employee.dob}"> dob</td>
+                    </tr>
                 </tbody>
             </table>
             <button type="submit" class="btn btn-primary" name="usun" value="true"> Usuń</button>
         </div>
-
     </form>
 </div>
 <div>
-    <form th:object="${employee}" method="post">
+    <f5orm th:object="${employee}" method="post">
         <div>
             <label for="employee-name" class="form-label">Imie</label>
             <input type="text" class="form-control" id="employee-name" th:field="*{name}">
@@ -62,7 +54,7 @@
             <input type="date" class="form-control" id="dob" th:field="*{dob}">
         </div>
         <button type="submit" class="btn btn-primary">Dodaj</button>
-    </form>
+    </f5orm>
 </div>
 </body>
 </html>

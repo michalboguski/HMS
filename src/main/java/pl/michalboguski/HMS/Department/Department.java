@@ -23,4 +23,8 @@ public class Department {
     @Column(name = "members")
     @OneToMany (mappedBy = "department")
     private Set<Employee> members;
+
+    public void addHOD (Employee employee){
+        if (HOD == null) this.HOD = employee;
+    }
 }

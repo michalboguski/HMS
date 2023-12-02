@@ -7,10 +7,10 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <title>Strona wyświetla osoby</title>
+    <title>Strona wyświetla Działy</title>
 </head>
 <body>
-<h1>Osoby</h1>
+<h1>Działy</h1>
 <div>
     <ul>
         <li th:each="dep : ${departments}" th:text="${dep}">
@@ -56,7 +56,10 @@
         </div>
         <div>
             <label for="employee-surname" class="form-label">HOD</label>
-            <input type="text" class="form-control" id="employee-surname" th:field="*{HOD}">
+            <input list="allEmployee" class="form-control" id="employee-surname">
+            <datalist id="allEmployee" >
+                <option th:each="e : ${allEmployee}" th:value="${e}" th:field="*{id}" />
+            </datalist>
         </div>
         <div>
             <label for="dob" class="form-label">Członkowie</label>

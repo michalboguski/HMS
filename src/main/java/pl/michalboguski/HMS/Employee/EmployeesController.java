@@ -2,6 +2,7 @@ package pl.michalboguski.HMS.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +38,11 @@ public class EmployeesController {
     public String savePerson(Employee employee) {
         employeesService.save(employee);
         return "redirect:employees";
+    }
+
+    @GetMapping("/{id}")
+    public Employee displayEmployee(@PathVariable("id") Long id){
+        System.out.println("START");
+        return employeesService.findById(id);
     }
 }
