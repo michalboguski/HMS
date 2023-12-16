@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name="departments")
-public class Department {
+public class DepartmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -3,24 +3,32 @@ package pl.michalboguski.HMS.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+
 @Service
 public class DepartmentService {
+    @Autowired
     DepartmentRepository departmentRepository;
-@Autowired
-    public DepartmentService(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
-    }
+    @Autowired
+    DepartmentMapper departmentMapper;
+
+
     public void deleteById(Iterable<Long> ids) {
         departmentRepository.deleteAllById(ids);
     }
-    public void save(Department department){
+    public void save(DepartmentEntity department){
     departmentRepository.save(department);
     }
 
-    public Iterable<Department> findAllDepartmentsFromDataBase() {
-        return departmentRepository.findAll();
+    public Set<DepartmentDTO> findAllDepartmentsFromDataBase() {
+        return departmentRepository.findAll()
+                .stream()
+                .map(departmentMapper).collect(Collectors.toSet());
     }
-    public void delete(Department department) {
+    public void delete(DepartmentEntity department) {
         departmentRepository.delete(department);
     }
+
 }

@@ -7,11 +7,11 @@ import pl.michalboguski.HMS.Employee.Employee;
 import pl.michalboguski.HMS.Employee.EmployeesService;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/departments")
 public class DepartmentsController {
-
     @Autowired
     private DepartmentService departmentService;
     @Autowired
@@ -21,9 +21,10 @@ public class DepartmentsController {
     public String displayDepartments(){
         return "departments";
     }
+
     @ModelAttribute
-    public Department departmentModel() {
-        return new Department();
+    public DepartmentEntity departmentModel() {
+        return new DepartmentEntity();
     }
 
     @ModelAttribute("allEmployee")
@@ -31,17 +32,31 @@ public class DepartmentsController {
         return employeesService.findAllEmployeesFromDataBase();
     }
 
+
+//    @PostMapping(params = "add=true")
+//    public List<Employee> newMembers(@RequestParam(required = false) List<Long> employees){
+//        System.out.println("emp      "+employees);
+//        return new ArrayList<>(employeesService.findAllEmployyeByIds(employees));
+//    }
+
+
     @ModelAttribute("departments")
-    public Iterable<Department> returnEmployees() {
+    public Set<DepartmentDTO> returnEmployees() {
         return departmentService.findAllDepartmentsFromDataBase();
     }
+
+
     @PostMapping(params = "usun=true")
-    public String deletePersons(@RequestParam(required = false) List<Long> department) {
+    public String deleteDepartment(@RequestParam() List<Long> department) {
         departmentService.deleteById(department);
         return "redirect:departments";
     }
-    @PostMapping()
-    public String savePerson(Department department) {
+
+    @PostMapping
+    public String saveDepartment(DepartmentEntity department) {
+        System.out.println("=========");
+        System.out.println(department);
+        System.out.println("=========");
         departmentService.save(department);
         return "redirect:departments";
     }

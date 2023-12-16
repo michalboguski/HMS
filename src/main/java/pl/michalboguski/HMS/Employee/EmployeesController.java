@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -13,7 +12,7 @@ public class EmployeesController {
     @Autowired
     private EmployeesService employeesService;
 
-    @ModelAttribute
+    @ModelAttribute("newEmployee")
     public Employee personModel() {
         return new Employee();
     }
@@ -40,9 +39,10 @@ public class EmployeesController {
         return "redirect:employees";
     }
 
-    @GetMapping("/{id}")
-    public Employee displayEmployee(@PathVariable("id") Long id){
-        System.out.println("START");
-        return employeesService.findById(id);
+    @GetMapping("employee/{id}")
+    public String displayEmployee(@PathVariable("id") Long id, Model model){
+        model.addAttribute("employee", employeesService.findById(id));
+        return "employee";
+
     }
 }

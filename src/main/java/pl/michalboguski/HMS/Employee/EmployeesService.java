@@ -3,6 +3,9 @@ package pl.michalboguski.HMS.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class EmployeesService {
     EmployeesRepository employeesRepository;
@@ -31,4 +34,10 @@ public class EmployeesService {
     public Employee findById(Long id){
         return employeesRepository.getReferenceById(id);
     }
+
+    public List<Employee> findAllEmployyeByIds(List<Long> ids){
+        System.out.println(ids);
+        return employeesRepository.findAllById(ids);
+    }
+
 }

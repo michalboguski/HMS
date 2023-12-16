@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.michalboguski.HMS.Department.Department;
+import pl.michalboguski.HMS.Department.DepartmentEntity;
 
 import java.time.LocalDate;
 
@@ -24,7 +24,7 @@ public class Employee {
     @Column(name = "dob")
     private LocalDate dob;
     @ManyToOne
-    Department department;
+    DepartmentEntity department;
 
     @Override
     public String toString() {
