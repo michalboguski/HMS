@@ -1,13 +1,12 @@
 package pl.michalboguski.HMS.Department;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.michalboguski.HMS.Employee.Employee;
 import pl.michalboguski.HMS.Employee.EmployeesService;
-
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/departments")
@@ -22,9 +21,9 @@ public class DepartmentsController {
         return "departments";
     }
 
-    @ModelAttribute
-    public DepartmentEntity departmentModel() {
-        return new DepartmentEntity();
+    @ModelAttribute("department")
+    public DepartmentDTO departmentModel() {
+        return new DepartmentDTO();
     }
 
     @ModelAttribute("allEmployee")
@@ -32,32 +31,28 @@ public class DepartmentsController {
         return employeesService.findAllEmployeesFromDataBase();
     }
 
-
-//    @PostMapping(params = "add=true")
-//    public List<Employee> newMembers(@RequestParam(required = false) List<Long> employees){
-//        System.out.println("emp      "+employees);
-//        return new ArrayList<>(employeesService.findAllEmployyeByIds(employees));
-//    }
-
-
     @ModelAttribute("departments")
-    public Set<DepartmentDTO> returnEmployees() {
+    public Iterable<DepartmentDTO> returnDepartments() {
         return departmentService.findAllDepartmentsFromDataBase();
     }
 
-
-    @PostMapping(params = "usun=true")
-    public String deleteDepartment(@RequestParam() List<Long> department) {
-        departmentService.deleteById(department);
+    @PostMapping(params = "del=true")
+    public String deleteDepartment(@RequestParam(required = false) List<Long> dept) {
+        System.out.println("LIST delete id FROM TEMPLATE: " + dept);
+        departmentService.deleteById(dept);
         return "redirect:departments";
     }
 
     @PostMapping
-    public String saveDepartment(DepartmentEntity department) {
-        System.out.println("=========");
+    public String saveDepartment(DepartmentDTO department) {
+        System.out.println("SAVING DEPARTMENT MEMBER for id: "+ department.getId() );
+        department.getMembers().forEach(m -> System.out.println(m.toString()+" : "+m.getId().toString()));
         System.out.println(department);
-        System.out.println("=========");
         departmentService.save(department);
+
+
+
+
         return "redirect:departments";
     }
 }

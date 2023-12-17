@@ -24,6 +24,7 @@ public class EmployeesController {
 
     @PostMapping(params = "usun=true")
     public String deletePersons(@RequestParam(required = false) List<Long> employee) {
+        System.out.println(employee);
         employeesService.deleteById(employee);
         return "redirect:employees";
     }
