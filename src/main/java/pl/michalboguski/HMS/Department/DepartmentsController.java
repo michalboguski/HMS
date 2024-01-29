@@ -1,12 +1,13 @@
 package pl.michalboguski.HMS.Department;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.michalboguski.HMS.Employee.Employee;
+import pl.michalboguski.HMS.Employee.EmployeeDTO;
 import pl.michalboguski.HMS.Employee.EmployeesService;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Controller
 @RequestMapping("/departments")
@@ -26,9 +27,15 @@ public class DepartmentsController {
         return new DepartmentDTO();
     }
 
+    @ModelAttribute("freeEmployees")
+    public Iterable<EmployeeDTO> getUnAssignedEmployees(){
+        return StreamSupport.stream(employeesService.findAllEmployeeDAOFromDataBase().spliterator(),false)
+                .filter(employeeDTO -> employeeDTO.getDepartment() == null).collect(Collectors.toSet());
+    }
+
     @ModelAttribute("allEmployee")
-    public Iterable<Employee> getAllEmployee() {
-        return employeesService.findAllEmployeesFromDataBase();
+    public Iterable<EmployeeDTO> getAllEmployee() {
+        return employeesService.findAllEmployeeDAOFromDataBase();
     }
 
     @ModelAttribute("departments")
@@ -38,21 +45,16 @@ public class DepartmentsController {
 
     @PostMapping(params = "del=true")
     public String deleteDepartment(@RequestParam(required = false) List<Long> dept) {
-        System.out.println("LIST delete id FROM TEMPLATE: " + dept);
         departmentService.deleteById(dept);
         return "redirect:departments";
     }
 
     @PostMapping
     public String saveDepartment(DepartmentDTO department) {
-        System.out.println("SAVING DEPARTMENT MEMBER for id: "+ department.getId() );
-        department.getMembers().forEach(m -> System.out.println(m.toString()+" : "+m.getId().toString()));
-        System.out.println(department);
         departmentService.save(department);
-
-
-
 
         return "redirect:departments";
     }
+
+
 }

@@ -1,12 +1,17 @@
 package pl.michalboguski.HMS.Department;
 
-import org.springframework.stereotype.Controller;
-import java.util.function.Function;
-@Controller
-class DepartmentMapper implements Function<DepartmentEntity,DepartmentDTO> {
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-    @Override
-    public DepartmentDTO apply(DepartmentEntity departmentEntity) {
+@Configuration
+class DepartmentMapper  {
+
+    @Bean
+    public DepartmentMapper createDepartmentMapper(){
+        return new DepartmentMapper();
+    }
+
+    public DepartmentDTO toDao(DepartmentEntity departmentEntity) {
         return new DepartmentDTO(departmentEntity.getId(),
                 departmentEntity.getName(),
                 departmentEntity.getHOD(),

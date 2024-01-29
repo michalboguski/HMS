@@ -1,17 +1,17 @@
 package pl.michalboguski.HMS.Department;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import pl.michalboguski.HMS.Employee.Employee;
+import lombok.*;
+import pl.michalboguski.HMS.Employee.EmployeeEntity;
 import java.util.Set;
 
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentDTO {
     private Long id;
     private String name;
-    private Employee HOD;
-    private Set<Employee> members;
+    private EmployeeEntity HOD;
+    private Set<EmployeeEntity> members;
+
 }

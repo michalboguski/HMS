@@ -10,6 +10,58 @@
         <title>Strona wyświetla Działy</title>
     </head>
     <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Hotel Management System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Pracownicy
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="employees">Przejrzyj</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Zatrudnij</a></li>
+                            <li><a class="dropdown-item" href="#">Zwolnij</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="departments">Działy</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Akcje
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">akcja 1</a></li>
+                            <li><a class="dropdown-item" href="#">akcja 2</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">akcja 3</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
         <h1>Działy</h1>
         <div>
             <form method="post">
@@ -32,8 +84,7 @@
                             <td th:text="${dept.id}"> id</td>
                             <td th:text="${dept.name}"> name</td>
                             <td th:text="${dept.HOD}"> surname</td>
-                            <td <span> th:each="m ${dept.members}"</span> >
-                                    th:text="${m}"> dob</td>
+                            <td th:text="${dept.members}"> members</td>
                         </tr>
                         </tbody>
                     </table>
@@ -51,12 +102,12 @@
                 <div>
                     <label for="allEmployee" class="form-label"> Wybierz szefa działu</label>
                     <select id="allEmployee" th:field="*{HOD}" >
-                        <option th:each="e : ${allEmployee}"  th:value="${e.id}" th:text="${e.name}"> name </option>
+                        <option th:each="e : ${freeEmployees}"  th:value="${e.id}" th:text="${e.name}"> name </option>
                     </select>
                 </div>
                 <div>
                     <ul>
-                        <li th:each="employee : ${allEmployee}">
+                        <li th:each="employee : ${freeEmployees}">
                             <input type="checkbox" name="employee" th:field="*{members}" th:value="${employee.id}" />
                             <label th:text="${employee.name}">Test</label>
                         </li>

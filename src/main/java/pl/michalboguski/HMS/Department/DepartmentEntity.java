@@ -1,17 +1,16 @@
 package pl.michalboguski.HMS.Department;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import pl.michalboguski.HMS.Employee.Employee;
+import lombok.*;
+import org.hibernate.Hibernate;
+import pl.michalboguski.HMS.Employee.EmployeeEntity;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name="departments")
 public class DepartmentEntity {
@@ -21,8 +20,30 @@ public class DepartmentEntity {
     @Column(name = "name")
     private String name;
     @OneToOne
-    private Employee HOD;
+    private EmployeeEntity HOD;
     @Column(name = "members")
-    @OneToMany (mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Employee> members;
+    @OneToMany (mappedBy = "department", cascade = CascadeType.PERSIST)
+    private Set<EmployeeEntity> members;
+
+    public void addMembers(Set<EmployeeEntity> members){
+        if (!members.contains(HOD)) HOD.setDepartment(this);
+        members.forEach(m -> m.setDepartment(this));
+    }
+    @Override
+    public String toString() {
+        return id +" "+name +" " + HOD + members;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        DepartmentEntity that = (DepartmentEntity) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
