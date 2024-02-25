@@ -33,7 +33,7 @@ public class EmployeesController {
 
         //delete members from department
         //delete hod from department
-        departmentService.deleteMembers(employee);
+        employeesService.removeFromDepartments(employee);
 
         //delete department_id from employee
         employee.forEach(e -> employeesService.deleteDepartmentReferenceFromEmployee(e));

@@ -3,7 +3,6 @@ package pl.michalboguski.HMS.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.michalboguski.HMS.Department.DepartmentService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,12 +15,10 @@ public class EmployeesService {
     @Autowired
     EmployeeMapper employeeMapper;
 
-    @Autowired
-    DepartmentService departmentService;
-
     public void save(EmployeeDTO employeeDTO) {
         employeesRepository.save(employeeMapper.toEntity(employeeDTO));
     }
+
     public void saveAll(List<EmployeeDTO> employeesDTO) {
         employeesDTO.forEach(this::save);
     }
@@ -36,7 +33,7 @@ public class EmployeesService {
     }
 
 
-    public Iterable<EmployeeEntity> findAllEmploeeEntityFromDataBase(){
+    public Iterable<EmployeeEntity> findAllEmploeeEntityFromDataBase() {
         return employeesRepository.findAll();
     }
 
@@ -46,11 +43,11 @@ public class EmployeesService {
                 .collect(Collectors.toSet());
     }
 
-    public EmployeeEntity findById(Long id){
+    public EmployeeEntity findById(Long id) {
         return employeesRepository.getReferenceById(id);
     }
 
-    public List<EmployeeEntity> findAllEmployyeByIds(List<Long> ids){
+    public List<EmployeeEntity> findAllEmployyeByIds(List<Long> ids) {
         System.out.println(ids);
         return employeesRepository.findAllById(ids);
     }
@@ -58,7 +55,17 @@ public class EmployeesService {
     public void deleteDepartmentReferenceFromEmployee(Long id) {
         employeesRepository.findById(id).ifPresent(e -> e.setDepartment(null));
     }
-    public void deleteDepartmentsReferencesFromEmployees(List <Long> ids) {
+
+    public void deleteDepartmentsReferencesFromEmployees(List<Long> ids) {
         ids.forEach(this::deleteDepartmentReferenceFromEmployee);
+    }
+
+    public void removeMemberFromDepartment(Long employeeID) {
+        EmployeeEntity emp = findById(employeeID);
+        emp.setDepartment(null);
+    }
+
+    public void removeFromDepartments(List<Long> employeesListOfIDs) {
+        employeesListOfIDs.forEach(this::removeMemberFromDepartment);
     }
 }

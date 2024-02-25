@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.michalboguski.HMS.Employee.EmployeeDTO;
 import pl.michalboguski.HMS.Employee.EmployeesService;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -18,7 +19,7 @@ public class DepartmentsController {
     private EmployeesService employeesService;
 
     @GetMapping("")
-    public String displayDepartments(){
+    public String displayDepartments() {
         return "departments";
     }
 
@@ -28,9 +29,13 @@ public class DepartmentsController {
     }
 
     @ModelAttribute("freeEmployees")
-    public Iterable<EmployeeDTO> getUnAssignedEmployees(){
-        return StreamSupport.stream(employeesService.findAllEmployeeDAOFromDataBase().spliterator(),false)
-                .filter(employeeDTO -> employeeDTO.getDepartment() == null).collect(Collectors.toSet());
+    public Iterable<EmployeeDTO> getUnAssignedEmployees() {
+        System.out.println("NEW FREE EMPLOEE IN DEPARTAMENT LIST");
+        return StreamSupport
+                .stream(employeesService.findAllEmployeeDAOFromDataBase().spliterator(), false)
+                .filter(employeeDTO -> employeeDTO.getDepartment() == null)
+                .collect(Collectors.toSet());
+
     }
 
     @ModelAttribute("allEmployee")
@@ -45,14 +50,13 @@ public class DepartmentsController {
 
     @PostMapping(params = "del=true")
     public String deleteDepartment(@RequestParam(required = false) List<Long> dept) {
-        departmentService.deleteById(dept);
+        departmentService.deleteDepartments(dept);
         return "redirect:departments";
     }
 
     @PostMapping
     public String saveDepartment(DepartmentDTO department) {
         departmentService.save(department);
-
         return "redirect:departments";
     }
 
