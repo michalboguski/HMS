@@ -29,19 +29,7 @@ public class EmployeesController {
 
     @PostMapping(params = "usun")
     public String deletePersons(@RequestParam(required = false) List<Long> employee) {
-        System.out.println(employee);
-
-        //delete members from department
-        //delete hod from department
-        employeesService.removeFromDepartments(employee);
-
-        //delete department_id from employee
-        employee.forEach(e -> employeesService.deleteDepartmentReferenceFromEmployee(e));
-
-        //delete employes
-        employeesService.deleteById(employee);
-
-        System.out.println(employee);
+        employeesService.deleteEmployees(employee);
         return "redirect:employees";
     }
 

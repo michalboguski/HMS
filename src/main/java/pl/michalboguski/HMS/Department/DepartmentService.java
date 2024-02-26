@@ -15,9 +15,6 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
     @Autowired
     DepartmentMapper departmentMapper;
-    @Autowired
-    EmployeesService employeesService;
-
 
     public void deleteMember(DepartmentEntity departmentEntity, Long memberID) {
         departmentEntity.getMembers().removeIf(member -> memberID.equals(member.getId()));
@@ -28,16 +25,13 @@ public class DepartmentService {
         departmentEntity.getMembers().forEach(member -> member.setDepartment(null));
         departmentEntity.setMembers(null);
         departmentEntity.setHOD(null);
-        // departmentRepository.save(departmentEntity);
     }
 
     public void deleteDepartments(List<Long> departmentsIDs) {
         departmentsIDs.forEach(departmentID ->
-                {
-                    deleteAllMembers(departmentRepository.getReferenceById(departmentID));
-                    departmentRepository.deleteById(departmentID);
-                }
+                deleteAllMembers(departmentRepository.getReferenceById(departmentID))
         );
+        departmentRepository.deleteAllById(departmentsIDs);
     }
 
     public void save(DepartmentDTO department) {

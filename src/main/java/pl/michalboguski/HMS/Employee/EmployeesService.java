@@ -23,15 +23,9 @@ public class EmployeesService {
         employeesDTO.forEach(this::save);
     }
 
-    public void delete(EmployeeEntity employee) {
-        employeesRepository.delete(employee);
+    public void deleteEmployee(Long id) {
+        employeesRepository.deleteById(id);
     }
-
-    @Transactional
-    public void deleteById(List<Long> ids) {
-        employeesRepository.deleteAllById(ids);
-    }
-
 
     public Iterable<EmployeeEntity> findAllEmploeeEntityFromDataBase() {
         return employeesRepository.findAll();
@@ -48,24 +42,19 @@ public class EmployeesService {
     }
 
     public List<EmployeeEntity> findAllEmployyeByIds(List<Long> ids) {
-        System.out.println(ids);
         return employeesRepository.findAllById(ids);
     }
 
-    public void deleteDepartmentReferenceFromEmployee(Long id) {
-        employeesRepository.findById(id).ifPresent(e -> e.setDepartment(null));
-    }
-
-    public void deleteDepartmentsReferencesFromEmployees(List<Long> ids) {
-        ids.forEach(this::deleteDepartmentReferenceFromEmployee);
-    }
-
-    public void removeMemberFromDepartment(Long employeeID) {
+    @Transactional
+    public void removeDepartment(Long employeeID) {
         EmployeeEntity emp = findById(employeeID);
+        emp.getDepartment().getMembers().removeIf(member -> employeeID.equals(member.getId()));
+        emp.getDepartment().setHOD(null);
         emp.setDepartment(null);
     }
 
-    public void removeFromDepartments(List<Long> employeesListOfIDs) {
-        employeesListOfIDs.forEach(this::removeMemberFromDepartment);
+    public void deleteEmployees(List<Long> employeesIDs) {
+        employeesIDs.forEach(this::removeDepartment);
+        employeesRepository.deleteAllById(employeesIDs);
     }
 }
