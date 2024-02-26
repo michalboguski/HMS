@@ -22,7 +22,7 @@ public class DepartmentEntity {
     @OneToOne
     private EmployeeEntity HOD;
     @Column(name = "members")
-    @OneToMany (mappedBy = "department", cascade = CascadeType.PERSIST)
+    @OneToMany (mappedBy = "department", cascade = CascadeType.REFRESH)
     private Set<EmployeeEntity> members;
 
     public void addMembers(Set<EmployeeEntity> members){

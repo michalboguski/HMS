@@ -27,7 +27,7 @@ public class EmployeeEntity {
     private String surname;
     @Column(name = "dob")
     private LocalDate dob;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private DepartmentEntity department;
 
     @Override

@@ -2,6 +2,7 @@ package pl.michalboguski.HMS.Department;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.michalboguski.HMS.Employee.EmployeesService;
 
 import java.util.List;
@@ -18,19 +19,25 @@ public class DepartmentService {
     EmployeesService employeesService;
 
 
-    public void deleteMember(Long id) {
-        departmentRepository.findById(id).ifPresent(d -> {
-            d.setHOD(null);
-            d.setMembers(null);
-        });
+    public void deleteMember(DepartmentEntity departmentEntity, Long memberID) {
+        departmentEntity.getMembers().removeIf(member -> memberID.equals(member.getId()));
     }
 
-    public void deleteDepartment(Long id){
-        departmentRepository.deleteById(id);
+    @Transactional
+    public void deleteAllMembers(DepartmentEntity departmentEntity) {
+        departmentEntity.getMembers().forEach(member -> member.setDepartment(null));
+        departmentEntity.setMembers(null);
+        departmentEntity.setHOD(null);
+        // departmentRepository.save(departmentEntity);
     }
 
-    public void deleteDepartments(Iterable<Long> ids) {
-        departmentRepository.deleteAllById(ids);
+    public void deleteDepartments(List<Long> departmentsIDs) {
+        departmentsIDs.forEach(departmentID ->
+                {
+                    deleteAllMembers(departmentRepository.getReferenceById(departmentID));
+                    departmentRepository.deleteById(departmentID);
+                }
+        );
     }
 
     public void save(DepartmentDTO department) {
@@ -38,7 +45,6 @@ public class DepartmentService {
         departmentEntity.addMembers(departmentEntity.getMembers());
         departmentRepository.save(departmentEntity);
     }
-
 
 
     public Set<DepartmentDTO> findAllDepartmentsFromDataBase() {
