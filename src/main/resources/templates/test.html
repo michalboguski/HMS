@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="ordersForm" method="POST" form="ordersForm"
+      th:action="@{/searchOrders}"
+      th:object="${ordersList}">
+    <div class="form-row">
+        <div class="col-auto">
+            <label for="Estado">Estado
+                <select class="form-control custom-select" id="status" name="status" form="ordersForm"
+                        th:object="${statusDropdown}">
+                    <option selected>Seleccione Estado</option>
+                    <option th:each="status : ${statusDropdown}"
+                            th:text="${status}"
+                            th:value="${status}">Estado</option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="col-auto mr-1">
+        <div>
+            <input class="btn btn-info" type="submit" value="Buscar"/>
+        </div>
+    </div>
+</form>
+</body>
+</html>
