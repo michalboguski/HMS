@@ -29,7 +29,7 @@ public class EmployeesController {
 
     @PostMapping(params = "usun")
     public String deletePersons(@RequestParam(required = false) List<Long> employee) {
-        employeesService.deleteEmployees(employee);
+        employeesService.removeDepartmentsFromEmployees(employee);
         return "redirect:employees";
     }
 

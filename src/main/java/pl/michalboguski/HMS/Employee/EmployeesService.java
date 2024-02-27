@@ -47,7 +47,7 @@ public class EmployeesService {
     }
 
     @Transactional
-    public void removeDepartment(Long employeeID) {
+    public void removeDepartmentFromEmployye(Long employeeID) {
         EmployeeEntity emp = employeesRepository.getReferenceById(employeeID);
         emp.getDepartment().getMembers().removeIf(member -> employeeID.equals(member.getId()));
         emp.getDepartment().setHOD(null);
@@ -55,8 +55,8 @@ public class EmployeesService {
     }
 
     @Transactional
-    public void deleteEmployees(List<Long> employeesIDs) {
-        employeesIDs.forEach(this::removeDepartment);
+    public void removeDepartmentsFromEmployees(List<Long> employeesIDs) {
+        employeesIDs.forEach(this::removeDepartmentFromEmployye);
         employeesRepository.deleteAllById(employeesIDs);
     }
 }
