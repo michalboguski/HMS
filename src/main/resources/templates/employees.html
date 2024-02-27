@@ -75,6 +75,7 @@
                     <th scope="col">Imie</th>
                     <th scope="col">Nazwisko</th>
                     <th scope="col">Data urodzenia</th>
+                    <th scope="col">Dział</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -86,6 +87,7 @@
                     <td th:text="${employee.name}"> name</td>
                     <td th:text="${employee.surname}"> surname</td>
                     <td th:text="${employee.dob}"> dob</td>
+                    <td th:text="${employee.department!=null}?${employee.department.name}:'nie przypisany'"> department</td>
                 </tr>
                 </tbody>
             </table>

@@ -3,7 +3,6 @@ package pl.michalboguski.HMS.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.michalboguski.HMS.Employee.EmployeesService;
 
 import java.util.List;
 import java.util.Set;
@@ -16,21 +15,22 @@ public class DepartmentService {
     @Autowired
     DepartmentMapper departmentMapper;
 
-    public void deleteMember(DepartmentEntity departmentEntity, Long memberID) {
+    public void removeMember(DepartmentEntity departmentEntity, Long memberID) {
         departmentEntity.getMembers().removeIf(member -> memberID.equals(member.getId()));
     }
 
     @Transactional
-    public void deleteAllMembers(DepartmentEntity departmentEntity) {
-        departmentEntity.getMembers().forEach(member -> member.setDepartment(null));
+    public void removeAllMembersFromDepartment(Long departmentID) {
+        DepartmentEntity departmentEntity = departmentRepository.getReferenceById(departmentID);
+        departmentEntity.getMembers().forEach(member -> member.setDepartment(null)); // czy todziała?
         departmentEntity.setMembers(null);
         departmentEntity.setHOD(null);
+        departmentRepository.save(departmentEntity);
     }
 
+    @Transactional
     public void deleteDepartments(List<Long> departmentsIDs) {
-        departmentsIDs.forEach(departmentID ->
-                deleteAllMembers(departmentRepository.getReferenceById(departmentID))
-        );
+        departmentsIDs.forEach(this::removeAllMembersFromDepartment);
         departmentRepository.deleteAllById(departmentsIDs);
     }
 

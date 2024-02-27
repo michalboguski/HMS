@@ -1,6 +1,7 @@
 package pl.michalboguski.HMS.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.Jpa21Utils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,12 +48,13 @@ public class EmployeesService {
 
     @Transactional
     public void removeDepartment(Long employeeID) {
-        EmployeeEntity emp = findById(employeeID);
+        EmployeeEntity emp = employeesRepository.getReferenceById(employeeID);
         emp.getDepartment().getMembers().removeIf(member -> employeeID.equals(member.getId()));
         emp.getDepartment().setHOD(null);
         emp.setDepartment(null);
     }
 
+    @Transactional
     public void deleteEmployees(List<Long> employeesIDs) {
         employeesIDs.forEach(this::removeDepartment);
         employeesRepository.deleteAllById(employeesIDs);
