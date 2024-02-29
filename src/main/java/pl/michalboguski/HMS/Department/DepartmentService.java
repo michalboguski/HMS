@@ -44,7 +44,7 @@ public class DepartmentService {
     public Set<DepartmentDTO> findAllDepartmentsFromDataBase() {
         return departmentRepository.findAll()
                 .stream()
-                .map(d -> departmentMapper.toDao(d))
+                .map(d -> departmentMapper.toDto(d))
                 .collect(Collectors.toSet());
     }
 

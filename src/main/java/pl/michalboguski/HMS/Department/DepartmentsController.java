@@ -48,7 +48,7 @@ public class DepartmentsController {
         return departmentService.findAllDepartmentsFromDataBase();
     }
 
-    @PostMapping(params = "del=true")
+    @DeleteMapping(params = "del=true")
     public String deleteDepartment(@RequestParam(required = false) List<Long> dept) {
         departmentService.deleteDepartments(dept);
         return "redirect:departments";

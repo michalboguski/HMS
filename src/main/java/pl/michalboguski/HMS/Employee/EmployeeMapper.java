@@ -2,16 +2,17 @@ package pl.michalboguski.HMS.Employee;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.michalboguski.HMS.Mapper;
 
 @Configuration
-public class EmployeeMapper {
+public class EmployeeMapper implements Mapper<EmployeeDTO, EmployeeEntity> {
 
     @Bean
     public EmployeeMapper createEmployeeeMapper(){
         return new EmployeeMapper();
     }
 
-    public EmployeeDTO toDTO (EmployeeEntity employeeEntity){
+    public EmployeeDTO toDto(EmployeeEntity employeeEntity){
         return new EmployeeDTO(employeeEntity.getId(),
                 employeeEntity.getName(),
                 employeeEntity.getSurname(),
