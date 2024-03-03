@@ -16,5 +16,4 @@ public class EmployeeDTO {
     private String surname;
     private LocalDate dob;
     private DepartmentEntity department;
-
 }
