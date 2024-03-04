@@ -2,9 +2,10 @@ package pl.michalboguski.HMS.Department;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import pl.michalboguski.HMS.Employee.EmployeeEntity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,31 +16,28 @@ public class DepartmentService {
     @Autowired
     DepartmentMapper departmentMapper;
 
-    public void removeMember(DepartmentEntity departmentEntity, Long memberID) {
-        departmentEntity.getMembers().removeIf(member -> memberID.equals(member.getId()));
+    public void removeAllMembersFromDepartment(Optional<Long> departmentID) {
+        departmentID.ifPresent(id -> {
+            DepartmentEntity departmentEntity = departmentRepository.getReferenceById(id);
+            Set<EmployeeEntity> members = departmentEntity.getMembers();
+            EmployeeEntity hod = departmentEntity.getHOD();
+
+            if (!members.isEmpty()) members.forEach(m -> m.setDepartment(null));
+            if (hod != null) hod.setDepartment(null);
+            departmentRepository.save(departmentEntity);
+        });
     }
 
-    @Transactional
-    public void removeAllMembersFromDepartment(Long departmentID) {
-        DepartmentEntity departmentEntity = departmentRepository.getReferenceById(departmentID);
-        departmentEntity.getMembers().forEach(member -> member.setDepartment(null)); // czy todziała?
-        departmentEntity.setMembers(null);
-        departmentEntity.setHOD(null);
-        departmentRepository.save(departmentEntity);
-    }
-
-    @Transactional
-    public void deleteDepartments(List<Long> departmentsIDs) {
+    public void deleteDepartments(List<Optional<Long>> departmentsIDs) {
         departmentsIDs.forEach(this::removeAllMembersFromDepartment);
-        departmentRepository.deleteAllById(departmentsIDs);
+        departmentsIDs.stream().filter(Optional::isPresent).map(Optional::get).forEach(id -> departmentRepository.deleteById(id));
     }
 
     public void save(DepartmentDTO department) {
         DepartmentEntity departmentEntity = departmentMapper.toEntity(department);
-        departmentEntity.addMembers(departmentEntity.getMembers());
+        departmentEntity.getMembers().forEach(m -> m.setDepartment(departmentEntity));
         departmentRepository.save(departmentEntity);
     }
-
 
     public Set<DepartmentDTO> findAllDepartmentsFromDataBase() {
         return departmentRepository.findAll()

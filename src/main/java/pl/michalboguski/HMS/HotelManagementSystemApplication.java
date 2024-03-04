@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HotelManagementSystemApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HotelManagementSystemApplication.class, args);
-	}
-	@RequestMapping("/")
-	public String displayHomePage(){
-		return "index";
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HotelManagementSystemApplication.class, args);
+    }
+
+    @RequestMapping("/")
+    public String displayHomePage() {
+        return "index";
+    }
 }
+

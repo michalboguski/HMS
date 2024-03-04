@@ -7,21 +7,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("INSIDE USER DETAILS SERVICE: LOAD USER BY NAME");
 
-        if(!"Michal".equals(username)) throw new UsernameNotFoundException("NIE MA TEKIEGO URZYTKOWNIKA");
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role("USER"));
-        return new ApplicationUser("Michal",passwordEncoder.encode("1234"),roles);
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("USER is not valid"));
     }
 }

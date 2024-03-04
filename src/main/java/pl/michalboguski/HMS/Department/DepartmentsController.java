@@ -7,6 +7,7 @@ import pl.michalboguski.HMS.Employee.EmployeeDTO;
 import pl.michalboguski.HMS.Employee.EmployeesService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -48,9 +49,9 @@ public class DepartmentsController {
         return departmentService.findAllDepartmentsFromDataBase();
     }
 
-    @DeleteMapping(params = "del=true")
-    public String deleteDepartment(@RequestParam(required = false) List<Long> dept) {
-        departmentService.deleteDepartments(dept);
+    @PostMapping(params = "del=true")
+    public String deleteDepartments(@RequestParam(required = false) List<Long> dept) {
+        departmentService.deleteDepartments(dept.stream().map(d -> Optional.of(d)).collect(Collectors.toList()));
         return "redirect:departments";
     }
 
