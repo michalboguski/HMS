@@ -27,17 +27,13 @@ public class Launcher implements CommandLineRunner {
         Optional<Role> adm = roleRepository.findByAuthority("ADMIN");
 
         if (adm.isEmpty()) {
-            System.out.println("1");
+
             Role adminRole = roleRepository.save(new Role("ADMIN"));
-            System.out.println("2");
-            roleRepository.save(new Role("USER"));
-            System.out.println("3");
             Set<Role> roles = new HashSet<>();
-            System.out.println("4");
             roles.add(adminRole);
             ApplicationUser admin = new ApplicationUser("admin", passwordEncoder.encode("123qwe"), roles);
             userRepository.save(admin);
-            System.out.println("END OF LAUNCHER RUN");
+
         }
     }
 }
