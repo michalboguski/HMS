@@ -47,11 +47,19 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">akcja 1</a></li>
-                        <li><a class="dropdown-item" href="#">akcja 2</a></li>
+                        <li>
+                            <form method="GET" th:action="@{/register}" id="registerForm">
+                                <input type="submit" value="Logout" class="dropdown-item"/>
+                            </form>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">akcja 3</a></li>
+                        <li>
+                            <form method="POST" th:action="@{/logout}" id="loginForm">
+                                <input type="submit" value="Logout" class="dropdown-item"/>
+                            </form>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -68,7 +76,9 @@
 
 
 <div>
-    <h1>Witaj na stronie zarządzania hotelem.</h1>
+    <h1>
+        Witaj na stronie zarządzania hotelem.
+    </h1>
     <p>Ten pięciogwiazdkowy Hotel Warszawa znajduje się 700 metrów od placu Defilad i kościoła Świętego Krzyża. Oferuje
         on zakwaterowanie z centrum fitness, spa, centrum odnowy biologicznej, całodobową recepcją, tarasem słonecznym
         oraz restauracją serwującą dania kuchni lokalnej. Goście mogą bezpłatnie korzystać z WiFi.
